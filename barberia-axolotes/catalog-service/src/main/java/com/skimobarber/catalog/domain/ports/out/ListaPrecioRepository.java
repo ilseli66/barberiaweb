@@ -1,11 +1,11 @@
 package com.skimobarber.catalog.domain.ports.out;
 
-import com.skimobarber.catalog.domain.model.ListaPrecio;
-import com.skimobarber.catalog.domain.model.ServicioListaPrecio;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+
+import com.skimobarber.catalog.domain.model.ListaPrecio;
+import com.skimobarber.catalog.domain.model.ServicioListaPrecio;
 
 public interface ListaPrecioRepository {
     ListaPrecio save(ListaPrecio listaPrecio);

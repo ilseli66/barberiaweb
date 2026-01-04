@@ -4,6 +4,7 @@ import com.skimobarber.common.domain.Result;
 import com.skimobarber.organization.domain.model.Establecimiento;
 import com.skimobarber.organization.domain.ports.in.EstablecimientoUseCase;
 import com.skimobarber.organization.domain.ports.out.EstablecimientoRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,8 +1,8 @@
 package com.skimobarber.identity.application.service;
 
 import com.skimobarber.common.domain.Result;
+import com.skimobarber.identity.domain.enums.TipoRol;
 import com.skimobarber.identity.domain.model.Persona;
-import com.skimobarber.identity.domain.model.TipoRol;
 import com.skimobarber.identity.domain.model.Usuario;
 import com.skimobarber.identity.domain.ports.in.CreateUsuarioUseCase;
 import com.skimobarber.identity.domain.ports.out.PasswordEncoder;

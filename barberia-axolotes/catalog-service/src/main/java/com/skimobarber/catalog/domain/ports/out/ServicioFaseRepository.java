@@ -1,9 +1,9 @@
 package com.skimobarber.catalog.domain.ports.out;
 
-import com.skimobarber.catalog.domain.model.ServicioFase;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.skimobarber.catalog.domain.model.ServicioFase;
 
 public interface ServicioFaseRepository {
     ServicioFase save(ServicioFase servicioFase);

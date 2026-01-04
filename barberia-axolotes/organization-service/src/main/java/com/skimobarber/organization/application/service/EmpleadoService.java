@@ -5,6 +5,7 @@ import com.skimobarber.organization.domain.model.Empleado;
 import com.skimobarber.organization.domain.ports.in.EmpleadoUseCase;
 import com.skimobarber.organization.domain.ports.out.EmpleadoRepository;
 import com.skimobarber.organization.domain.ports.out.SucursalRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

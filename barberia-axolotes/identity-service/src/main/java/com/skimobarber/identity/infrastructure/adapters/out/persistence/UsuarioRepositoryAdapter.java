@@ -1,6 +1,6 @@
 package com.skimobarber.identity.infrastructure.adapters.out.persistence;
 
-import com.skimobarber.identity.domain.model.TipoRol;
+import com.skimobarber.identity.domain.enums.TipoRol;
 import com.skimobarber.identity.domain.model.Usuario;
 import com.skimobarber.identity.domain.ports.out.UsuarioRepository;
 import org.springframework.stereotype.Repository;

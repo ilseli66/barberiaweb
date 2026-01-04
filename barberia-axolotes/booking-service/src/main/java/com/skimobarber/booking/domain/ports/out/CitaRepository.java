@@ -4,7 +4,6 @@ import com.skimobarber.booking.domain.model.Cita;
 import com.skimobarber.booking.domain.model.EstadoCita;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 

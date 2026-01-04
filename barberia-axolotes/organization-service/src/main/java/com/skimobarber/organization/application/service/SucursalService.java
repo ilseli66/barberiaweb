@@ -5,6 +5,7 @@ import com.skimobarber.organization.domain.model.Sucursal;
 import com.skimobarber.organization.domain.ports.in.SucursalUseCase;
 import com.skimobarber.organization.domain.ports.out.EstablecimientoRepository;
 import com.skimobarber.organization.domain.ports.out.SucursalRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
