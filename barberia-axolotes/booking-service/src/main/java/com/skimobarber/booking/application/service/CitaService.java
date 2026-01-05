@@ -15,14 +15,14 @@ import java.util.List;
 @Service
 public class CitaService implements CitaUseCase {
 
-    private final CitaRepository citaRepository;
-    private final CitaAgendaRepository agendaRepository;
+    private final ICitaRepository citaRepository;
+    private final ICitaAgendaRepository agendaRepository;
     private final CatalogServiceClient catalogClient;
     private final IdentityServiceClient identityClient;
     private final OrganizationServiceClient organizationClient;
 
-    public CitaService(CitaRepository citaRepository,
-                       CitaAgendaRepository agendaRepository,
+    public CitaService(ICitaRepository citaRepository,
+                       ICitaAgendaRepository agendaRepository,
                        CatalogServiceClient catalogClient,
                        IdentityServiceClient identityClient,
                        OrganizationServiceClient organizationClient) {

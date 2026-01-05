@@ -2,7 +2,7 @@ package com.skimobarber.booking.application.service;
 
 import com.skimobarber.booking.domain.model.HorarioEmpleado;
 import com.skimobarber.booking.domain.ports.in.HorarioEmpleadoUseCase;
-import com.skimobarber.booking.domain.ports.out.HorarioEmpleadoRepository;
+import com.skimobarber.booking.domain.ports.out.IHorarioEmpleadoRepository;
 import com.skimobarber.common.domain.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public class HorarioEmpleadoService implements HorarioEmpleadoUseCase {
 
-    private final HorarioEmpleadoRepository repository;
+    private final IHorarioEmpleadoRepository repository;
 
-    public HorarioEmpleadoService(HorarioEmpleadoRepository repository) {
+    public HorarioEmpleadoService(IHorarioEmpleadoRepository repository) {
         this.repository = repository;
     }
 
