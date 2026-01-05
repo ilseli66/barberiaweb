@@ -1,5 +1,6 @@
 package com.skimobarber.identity.infrastructure.adapters.out.persistence;
 
+import com.skimobarber.identity.domain.model.Cliente;
 import jakarta.persistence.*;
 
 @Entity
@@ -35,4 +36,22 @@ public class ClienteEntity {
 
     public PersonaEntity getPersona() { return persona; }
     public void setPersona(PersonaEntity persona) { this.persona = persona; }
+
+    // ========== Mapping Methods ==========
+
+    public static ClienteEntity fromDomain(Cliente cliente) {
+        ClienteEntity entity = new ClienteEntity();
+        entity.setPersonaId(cliente.getPersonaId());
+        entity.setPuntosFidelidad(cliente.getPuntosFidelidad());
+        entity.setNotasAlergias(cliente.getNotasAlergias());
+        return entity;
+    }
+
+    public Cliente toDomain() {
+        return new Cliente(
+            this.personaId,
+            this.puntosFidelidad,
+            this.notasAlergias
+        );
+    }
 }

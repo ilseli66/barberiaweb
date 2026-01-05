@@ -1,5 +1,7 @@
 package com.skimobarber.identity.infrastructure.adapters.out.persistence;
 
+import com.skimobarber.identity.domain.enums.TipoRol;
+import com.skimobarber.identity.domain.model.Usuario;
 import jakarta.persistence.*;
 
 @Entity
@@ -47,4 +49,33 @@ public class UsuarioEntity {
 
     public PersonaEntity getPersona() { return persona; }
     public void setPersona(PersonaEntity persona) { this.persona = persona; }
+
+    // ========== Mapping Methods ==========
+
+    /**
+     * Crea una entidad desde el dominio.
+     * Nota: El password debe establecerse por separado ya que el dominio no lo maneja.
+     */
+    public static UsuarioEntity fromDomain(Usuario usuario, String encodedPassword) {
+        UsuarioEntity entity = new UsuarioEntity();
+        entity.setPersonaId(usuario.getPersonaId());
+        entity.setLogin(usuario.getLogin());
+        entity.setPassword(encodedPassword);
+        entity.setRol(usuario.getRol().name().toLowerCase());
+        entity.setActivo(usuario.isActivo());
+        return entity;
+    }
+
+    /**
+     * Convierte la entidad al modelo de dominio.
+     * El password NO se incluye en el dominio por seguridad.
+     */
+    public Usuario toDomain() {
+        return new Usuario(
+            this.personaId,
+            this.login,
+            TipoRol.valueOf(this.rol.toUpperCase()),
+            this.activo
+        );
+    }
 }

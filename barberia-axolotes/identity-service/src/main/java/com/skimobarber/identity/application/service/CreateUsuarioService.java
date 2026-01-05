@@ -38,6 +38,13 @@ public class CreateUsuarioService implements CreateUsuarioUseCase {
             return Result.validationError("La contraseña debe tener al menos 8 caracteres");
         }
 
+        // Validar email
+        Persona personaValidation = new Persona();
+        personaValidation.setEmail(command.email());
+        if (!personaValidation.isEmailValid()) {
+            return Result.validationError("El email no es válido");
+        }
+
         if (usuarioRepository.existsByLogin(command.login())) {
             return Result.conflict("Ya existe un usuario con ese login");
         }
@@ -56,17 +63,18 @@ public class CreateUsuarioService implements CreateUsuarioUseCase {
 
         Persona savedPersona = personaRepository.save(persona);
 
-        // Crear Usuario
+        // Crear Usuario - el password se maneja por separado del modelo de dominio
         TipoRol rol = TipoRol.valueOf(command.rol().toUpperCase());
         Usuario usuario = new Usuario(
             savedPersona.getId(),
             command.login(),
-            passwordEncoder.encode(command.password()),
             rol,
             true
         );
 
-        Usuario savedUsuario = usuarioRepository.save(usuario);
+        // Encriptar password y guardar
+        String encodedPassword = passwordEncoder.encode(command.password());
+        Usuario savedUsuario = usuarioRepository.saveWithPassword(usuario, encodedPassword);
         return Result.created(savedUsuario);
     }
 }

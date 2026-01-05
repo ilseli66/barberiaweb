@@ -1,16 +1,27 @@
 package com.skimobarber.identity.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Cliente {
     private Long personaId;
     private Integer puntosFidelidad;
     private String notasAlergias;
+
+    public Cliente() {}
+
+    public Cliente(Long personaId, Integer puntosFidelidad, String notasAlergias) {
+        this.personaId = personaId;
+        this.puntosFidelidad = puntosFidelidad;
+        this.notasAlergias = notasAlergias;
+    }
+
+    // Getters
+    public Long getPersonaId() { return personaId; }
+    public Integer getPuntosFidelidad() { return puntosFidelidad; }
+    public String getNotasAlergias() { return notasAlergias; }
+
+    // Setters
+    public void setPersonaId(Long personaId) { this.personaId = personaId; }
+    public void setPuntosFidelidad(Integer puntosFidelidad) { this.puntosFidelidad = puntosFidelidad; }
+    public void setNotasAlergias(String notasAlergias) { this.notasAlergias = notasAlergias; }
 
     // Domain behavior
     public void agregarPuntos(int puntos) {

@@ -24,6 +24,13 @@ public class CreateClienteService implements CreateClienteUseCase {
     @Override
     @Transactional
     public Result<Cliente> execute(CreateClienteCommand command) {
+        // Validar email
+        Persona personaValidation = new Persona();
+        personaValidation.setEmail(command.email());
+        if (!personaValidation.isEmailValid()) {
+            return Result.validationError("El email no es válido");
+        }
+
         if (personaRepository.existsByEmail(command.email())) {
             return Result.conflict("Ya existe una persona con ese email");
         }

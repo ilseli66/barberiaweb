@@ -17,19 +17,19 @@ public class PersonaRepositoryAdapter implements PersonaRepository {
 
     @Override
     public Persona save(Persona persona) {
-        PersonaEntity entity = toEntity(persona);
+        PersonaEntity entity = PersonaEntity.fromDomain(persona);
         PersonaEntity saved = jpaRepository.save(entity);
-        return toDomain(saved);
+        return saved.toDomain();
     }
 
     @Override
     public Optional<Persona> findById(Long id) {
-        return jpaRepository.findById(id).map(this::toDomain);
+        return jpaRepository.findById(id).map(PersonaEntity::toDomain);
     }
 
     @Override
     public Optional<Persona> findByEmail(String email) {
-        return jpaRepository.findByEmail(email).map(this::toDomain);
+        return jpaRepository.findByEmail(email).map(PersonaEntity::toDomain);
     }
 
     @Override
@@ -40,31 +40,5 @@ public class PersonaRepositoryAdapter implements PersonaRepository {
     @Override
     public void deleteById(Long id) {
         jpaRepository.deleteById(id);
-    }
-
-    private PersonaEntity toEntity(Persona persona) {
-        PersonaEntity entity = new PersonaEntity();
-        entity.setId(persona.getId());
-        entity.setGeneroId(persona.getGeneroId());
-        entity.setNombre(persona.getNombre());
-        entity.setPrimerApellido(persona.getPrimerApellido());
-        entity.setSegundoApellido(persona.getSegundoApellido());
-        entity.setFechaNacimiento(persona.getFechaNacimiento());
-        entity.setTelefono(persona.getTelefono());
-        entity.setEmail(persona.getEmail());
-        return entity;
-    }
-
-    private Persona toDomain(PersonaEntity entity) {
-        return new Persona(
-            entity.getId(),
-            entity.getGeneroId(),
-            entity.getNombre(),
-            entity.getPrimerApellido(),
-            entity.getSegundoApellido(),
-            entity.getFechaNacimiento(),
-            entity.getTelefono(),
-            entity.getEmail()
-        );
     }
 }

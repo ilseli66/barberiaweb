@@ -1,6 +1,5 @@
 package com.skimobarber.identity.infrastructure.adapters.out.persistence;
 
-import com.skimobarber.identity.domain.enums.TipoRol;
 import com.skimobarber.identity.domain.model.Usuario;
 import com.skimobarber.identity.domain.ports.out.UsuarioRepository;
 import org.springframework.stereotype.Repository;
@@ -21,30 +20,44 @@ public class UsuarioRepositoryAdapter implements UsuarioRepository {
     }
 
     @Override
-    public Usuario save(Usuario usuario) {
+    public Usuario saveWithPassword(Usuario usuario, String encodedPassword) {
         PersonaEntity persona = personaRepository.findById(usuario.getPersonaId())
             .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada"));
 
-        UsuarioEntity entity = toEntity(usuario);
+        UsuarioEntity entity = UsuarioEntity.fromDomain(usuario, encodedPassword);
         entity.setPersona(persona);
         UsuarioEntity saved = jpaRepository.save(entity);
-        return toDomain(saved);
+        return saved.toDomain();
+    }
+
+    @Override
+    public Usuario save(Usuario usuario) {
+        // Para actualizaciones, mantenemos el password existente
+        UsuarioEntity existing = jpaRepository.findById(usuario.getPersonaId())
+            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        
+        existing.setLogin(usuario.getLogin());
+        existing.setRol(usuario.getRol().name().toLowerCase());
+        existing.setActivo(usuario.isActivo());
+        
+        UsuarioEntity saved = jpaRepository.save(existing);
+        return saved.toDomain();
     }
 
     @Override
     public Optional<Usuario> findByPersonaId(Long personaId) {
-        return jpaRepository.findById(personaId).map(this::toDomain);
+        return jpaRepository.findById(personaId).map(UsuarioEntity::toDomain);
     }
 
     @Override
     public Optional<Usuario> findByLogin(String login) {
-        return jpaRepository.findByLogin(login).map(this::toDomain);
+        return jpaRepository.findByLogin(login).map(UsuarioEntity::toDomain);
     }
 
     @Override
     public List<Usuario> findAll() {
         return jpaRepository.findAll().stream()
-            .map(this::toDomain)
+            .map(UsuarioEntity::toDomain)
             .toList();
     }
 
@@ -56,25 +69,5 @@ public class UsuarioRepositoryAdapter implements UsuarioRepository {
     @Override
     public void deleteByPersonaId(Long personaId) {
         jpaRepository.deleteById(personaId);
-    }
-
-    private UsuarioEntity toEntity(Usuario usuario) {
-        UsuarioEntity entity = new UsuarioEntity();
-        entity.setPersonaId(usuario.getPersonaId());
-        entity.setLogin(usuario.getLogin());
-        entity.setPassword(usuario.getPassword());
-        entity.setRol(usuario.getRol().name().toLowerCase());
-        entity.setActivo(usuario.isActivo());
-        return entity;
-    }
-
-    private Usuario toDomain(UsuarioEntity entity) {
-        return new Usuario(
-            entity.getPersonaId(),
-            entity.getLogin(),
-            entity.getPassword(),
-            TipoRol.valueOf(entity.getRol().toUpperCase()),
-            entity.isActivo()
-        );
     }
 }

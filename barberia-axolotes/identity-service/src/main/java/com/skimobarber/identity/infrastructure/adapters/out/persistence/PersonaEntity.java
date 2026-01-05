@@ -1,5 +1,6 @@
 package com.skimobarber.identity.infrastructure.adapters.out.persistence;
 
+import com.skimobarber.identity.domain.model.Persona;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -58,4 +59,32 @@ public class PersonaEntity {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    // ========== Mapping Methods ==========
+
+    public static PersonaEntity fromDomain(Persona persona) {
+        PersonaEntity entity = new PersonaEntity();
+        entity.setId(persona.getId());
+        entity.setGeneroId(persona.getGeneroId());
+        entity.setNombre(persona.getNombre());
+        entity.setPrimerApellido(persona.getPrimerApellido());
+        entity.setSegundoApellido(persona.getSegundoApellido());
+        entity.setFechaNacimiento(persona.getFechaNacimiento());
+        entity.setTelefono(persona.getTelefono());
+        entity.setEmail(persona.getEmail());
+        return entity;
+    }
+
+    public Persona toDomain() {
+        return new Persona(
+            this.id,
+            this.generoId,
+            this.nombre,
+            this.primerApellido,
+            this.segundoApellido,
+            this.fechaNacimiento,
+            this.telefono,
+            this.email
+        );
+    }
 }

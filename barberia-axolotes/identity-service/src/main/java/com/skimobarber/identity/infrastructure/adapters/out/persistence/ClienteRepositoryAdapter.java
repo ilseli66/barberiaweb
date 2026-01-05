@@ -24,42 +24,26 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
         PersonaEntity persona = personaRepository.findById(cliente.getPersonaId())
             .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada"));
 
-        ClienteEntity entity = toEntity(cliente);
+        ClienteEntity entity = ClienteEntity.fromDomain(cliente);
         entity.setPersona(persona);
         ClienteEntity saved = jpaRepository.save(entity);
-        return toDomain(saved);
+        return saved.toDomain();
     }
 
     @Override
     public Optional<Cliente> findByPersonaId(Long personaId) {
-        return jpaRepository.findById(personaId).map(this::toDomain);
+        return jpaRepository.findById(personaId).map(ClienteEntity::toDomain);
     }
 
     @Override
     public List<Cliente> findAll() {
         return jpaRepository.findAll().stream()
-            .map(this::toDomain)
+            .map(ClienteEntity::toDomain)
             .toList();
     }
 
     @Override
     public void deleteByPersonaId(Long personaId) {
         jpaRepository.deleteById(personaId);
-    }
-
-    private ClienteEntity toEntity(Cliente cliente) {
-        ClienteEntity entity = new ClienteEntity();
-        entity.setPersonaId(cliente.getPersonaId());
-        entity.setPuntosFidelidad(cliente.getPuntosFidelidad());
-        entity.setNotasAlergias(cliente.getNotasAlergias());
-        return entity;
-    }
-
-    private Cliente toDomain(ClienteEntity entity) {
-        return new Cliente(
-            entity.getPersonaId(),
-            entity.getPuntosFidelidad(),
-            entity.getNotasAlergias()
-        );
     }
 }
