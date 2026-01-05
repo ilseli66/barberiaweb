@@ -1,9 +1,9 @@
-package com.skimobarber.identity.infrastructure.config;
+package com.skimobarber.gateway.config;
 
-import com.skimobarber.identity.infrastructure.adapters.out.security.JwtProvider;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,16 +13,20 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * Configuración de seguridad del Gateway.
+ * El gateway actúa como portero validando los tokens JWT antes de
+ * propagar las peticiones a los microservicios internos.
+ */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtProvider jwtProvider;
-
-    public SecurityConfig(JwtProvider jwtProvider) {
-        this.jwtProvider = jwtProvider;
-    }
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,16 +34,14 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Endpoints públicos (login, registro)
+                // Endpoints públicos que no requieren autenticación
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/clientes").permitAll() // Registro de clientes
+                .requestMatchers("/api/clientes").permitAll() // Registro público
                 .requestMatchers("/actuator/**").permitAll()
-                // Endpoints protegidos
-                .requestMatchers("/api/usuarios/**").authenticated()
-                .requestMatchers("/api/clientes/**").authenticated()
+                // Todos los demás endpoints requieren autenticación
                 .anyRequest().authenticated()
             )
-            // Configurar como Resource Server con JWT
+            // Configurar como Resource Server para validar JWT
             .oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt
                     .decoder(jwtDecoder())
@@ -51,15 +53,16 @@ public class SecurityConfig {
     }
 
     /**
-     * Decodificador de JWT usando la clave secreta compartida.
+     * Decodificador de JWT usando la misma clave secreta que identity-service.
      */
     @Bean
     public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withSecretKey(jwtProvider.getSecretKey()).build();
+        SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
 
     /**
-     * Converter para extraer roles del JWT y convertirlos a authorities.
+     * Converter para extraer roles del JWT.
      */
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {

@@ -5,6 +5,10 @@ spring:
   application:
     name: gateway-server
 
+# Configuración JWT (debe coincidir con identity-service)
+jwt:
+  secret: SkimoBarberSecretKeyForJWTTokenSigningMustBe256BitsLong!
+
 eureka:
   client:
     service-url:
@@ -24,4 +28,5 @@ management:
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
     com.skimobarber.gateway: DEBUG

@@ -14,6 +14,15 @@ import static org.springframework.cloud.gateway.server.mvc.filter.LoadBalancerFi
 public class GatewayConfig {
 
     @Bean
+    public RouterFunction<ServerResponse> authRoute() {
+        return GatewayRouterFunctions.route("auth-route")
+            .route(RequestPredicates.path("/api/auth/**"),
+                HandlerFunctions.http())
+            .filter(lb("identity-service"))
+            .build();
+    }
+
+    @Bean
     public RouterFunction<ServerResponse> identityServiceRoute() {
         return GatewayRouterFunctions.route("identity-service")
             .route(RequestPredicates.path("/api/usuarios/**")

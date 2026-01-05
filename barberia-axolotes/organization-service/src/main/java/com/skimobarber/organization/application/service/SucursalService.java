@@ -3,8 +3,8 @@ package com.skimobarber.organization.application.service;
 import com.skimobarber.common.domain.Result;
 import com.skimobarber.organization.domain.model.Sucursal;
 import com.skimobarber.organization.domain.ports.in.SucursalUseCase;
-import com.skimobarber.organization.domain.ports.out.EstablecimientoRepository;
-import com.skimobarber.organization.domain.ports.out.SucursalRepository;
+import com.skimobarber.organization.domain.ports.out.IEstablecimientoRepository;
+import com.skimobarber.organization.domain.ports.out.ISucursalRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +14,11 @@ import java.util.List;
 @Service
 public class SucursalService implements SucursalUseCase {
 
-    private final SucursalRepository sucursalRepository;
-    private final EstablecimientoRepository establecimientoRepository;
+    private final ISucursalRepository sucursalRepository;
+    private final IEstablecimientoRepository establecimientoRepository;
 
-    public SucursalService(SucursalRepository sucursalRepository,
-                           EstablecimientoRepository establecimientoRepository) {
+    public SucursalService(ISucursalRepository sucursalRepository,
+                           IEstablecimientoRepository establecimientoRepository) {
         this.sucursalRepository = sucursalRepository;
         this.establecimientoRepository = establecimientoRepository;
     }
@@ -39,7 +39,8 @@ public class SucursalService implements SucursalUseCase {
             command.establecimientoId(),
             command.nombre(),
             command.latitud(),
-            command.longitud()
+            command.longitud(),
+            null
         );
 
         Sucursal saved = sucursalRepository.save(sucursal);

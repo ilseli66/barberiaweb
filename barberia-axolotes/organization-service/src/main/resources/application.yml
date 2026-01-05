@@ -18,6 +18,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
+# Configuración JWT (debe coincidir con identity-service)
+jwt:
+  secret: SkimoBarberSecretKeyForJWTTokenSigningMustBe256BitsLong!
+
 eureka:
   client:
     service-url:
@@ -34,3 +38,4 @@ management:
 logging:
   level:
     com.skimobarber.organization: DEBUG
+    org.springframework.security: DEBUG

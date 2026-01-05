@@ -2,6 +2,11 @@ package com.skimobarber.identity.infrastructure.adapters.out.persistence;
 
 import com.skimobarber.identity.domain.model.Usuario;
 import com.skimobarber.identity.domain.ports.out.UsuarioRepository;
+import com.skimobarber.identity.infrastructure.adapters.out.persistence.entity.PersonaEntity;
+import com.skimobarber.identity.infrastructure.adapters.out.persistence.entity.UsuarioEntity;
+import com.skimobarber.identity.infrastructure.adapters.out.persistence.jpa.JpaPersonaRepository;
+import com.skimobarber.identity.infrastructure.adapters.out.persistence.jpa.JpaUsuarioRepository;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

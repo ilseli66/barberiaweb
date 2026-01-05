@@ -1,4 +1,4 @@
-package com.skimobarber.identity.infrastructure.adapters.out.persistence;
+package com.skimobarber.identity.infrastructure.adapters.out.persistence.entity;
 
 import com.skimobarber.identity.domain.model.Cliente;
 import jakarta.persistence.*;

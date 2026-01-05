@@ -3,8 +3,8 @@ package com.skimobarber.organization.application.service;
 import com.skimobarber.common.domain.Result;
 import com.skimobarber.organization.domain.model.Empleado;
 import com.skimobarber.organization.domain.ports.in.EmpleadoUseCase;
-import com.skimobarber.organization.domain.ports.out.EmpleadoRepository;
-import com.skimobarber.organization.domain.ports.out.SucursalRepository;
+import com.skimobarber.organization.domain.ports.out.IEmpleadoRepository;
+import com.skimobarber.organization.domain.ports.out.ISucursalRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +14,11 @@ import java.util.List;
 @Service
 public class EmpleadoService implements EmpleadoUseCase {
 
-    private final EmpleadoRepository empleadoRepository;
-    private final SucursalRepository sucursalRepository;
+    private final IEmpleadoRepository empleadoRepository;
+    private final ISucursalRepository sucursalRepository;
 
-    public EmpleadoService(EmpleadoRepository empleadoRepository,
-                           SucursalRepository sucursalRepository) {
+    public EmpleadoService(IEmpleadoRepository empleadoRepository,
+                           ISucursalRepository sucursalRepository) {
         this.empleadoRepository = empleadoRepository;
         this.sucursalRepository = sucursalRepository;
     }

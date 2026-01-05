@@ -18,6 +18,14 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
+# Configuración JWT
+jwt:
+  # Clave secreta para firmar tokens (mínimo 256 bits / 32 caracteres)
+  # En producción usar variable de entorno: ${JWT_SECRET}
+  secret: SkimoBarberSecretKeyForJWTTokenSigningMustBe256BitsLong!
+  # Tiempo de expiración del token en milisegundos (1 hora = 3600000)
+  expiration-ms: 3600000
+
 eureka:
   client:
     service-url:

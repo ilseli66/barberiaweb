@@ -1,6 +1,8 @@
-package com.skimobarber.identity.infrastructure.adapters.out.persistence;
+package com.skimobarber.identity.infrastructure.adapters.out.persistence.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.skimobarber.identity.infrastructure.adapters.out.persistence.entity.UsuarioEntity;
 
 import java.util.Optional;
 
