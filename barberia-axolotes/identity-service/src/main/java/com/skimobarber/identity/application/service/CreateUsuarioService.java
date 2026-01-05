@@ -5,21 +5,21 @@ import com.skimobarber.identity.domain.enums.TipoRol;
 import com.skimobarber.identity.domain.model.Persona;
 import com.skimobarber.identity.domain.model.Usuario;
 import com.skimobarber.identity.domain.ports.in.CreateUsuarioUseCase;
+import com.skimobarber.identity.domain.ports.out.IPersonaRepository;
+import com.skimobarber.identity.domain.ports.out.IUsuarioRepository;
 import com.skimobarber.identity.domain.ports.out.PasswordEncoder;
-import com.skimobarber.identity.domain.ports.out.PersonaRepository;
-import com.skimobarber.identity.domain.ports.out.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CreateUsuarioService implements CreateUsuarioUseCase {
 
-    private final PersonaRepository personaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final IPersonaRepository personaRepository;
+    private final IUsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public CreateUsuarioService(PersonaRepository personaRepository,
-                                 UsuarioRepository usuarioRepository,
+    public CreateUsuarioService(IPersonaRepository personaRepository,
+                                 IUsuarioRepository usuarioRepository,
                                  PasswordEncoder passwordEncoder) {
         this.personaRepository = personaRepository;
         this.usuarioRepository = usuarioRepository;

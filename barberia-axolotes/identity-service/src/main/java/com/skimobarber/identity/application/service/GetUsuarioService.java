@@ -3,7 +3,8 @@ package com.skimobarber.identity.application.service;
 import com.skimobarber.common.domain.Result;
 import com.skimobarber.identity.domain.model.Usuario;
 import com.skimobarber.identity.domain.ports.in.GetUsuarioUseCase;
-import com.skimobarber.identity.domain.ports.out.UsuarioRepository;
+import com.skimobarber.identity.domain.ports.out.IUsuarioRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.List;
 @Service
 public class GetUsuarioService implements GetUsuarioUseCase {
 
-    private final UsuarioRepository usuarioRepository;
+    private final IUsuarioRepository usuarioRepository;
 
-    public GetUsuarioService(UsuarioRepository usuarioRepository) {
+    public GetUsuarioService(IUsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 

@@ -6,15 +6,10 @@ import java.util.Optional;
 
 import com.skimobarber.catalog.domain.model.ListaPrecio;
 import com.skimobarber.catalog.domain.model.ServicioListaPrecio;
+import com.skimobarber.common.domain.ports.out.IBaseRepository;
 
-public interface ListaPrecioRepository {
-    ListaPrecio save(ListaPrecio listaPrecio);
-    Optional<ListaPrecio> findById(Long id);
-    List<ListaPrecio> findAll();
+public interface IListaPrecioRepository extends IBaseRepository<ListaPrecio, Long> {
     List<ListaPrecio> findVigentes();
-    void deleteById(Long id);
-    boolean existsById(Long id);
-
     // Precios de servicios
     void saveServicioListaPrecio(ServicioListaPrecio slp);
     Optional<BigDecimal> findPrecio(Long servicioId, Long listaPrecioId);

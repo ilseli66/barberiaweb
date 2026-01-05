@@ -2,8 +2,9 @@ package com.skimobarber.catalog.application.service;
 
 import com.skimobarber.catalog.domain.model.Servicio;
 import com.skimobarber.catalog.domain.ports.in.ServicioUseCase;
-import com.skimobarber.catalog.domain.ports.out.ServicioRepository;
+import com.skimobarber.catalog.domain.ports.out.IServicioRepository;
 import com.skimobarber.common.domain.Result;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +13,9 @@ import java.util.List;
 @Service
 public class ServicioService implements ServicioUseCase {
 
-    private final ServicioRepository repository;
+    private final IServicioRepository repository;
 
-    public ServicioService(ServicioRepository repository) {
+    public ServicioService(IServicioRepository repository) {
         this.repository = repository;
     }
 

@@ -3,7 +3,8 @@ package com.skimobarber.identity.application.service;
 import com.skimobarber.common.domain.Result;
 import com.skimobarber.identity.domain.model.Cliente;
 import com.skimobarber.identity.domain.ports.in.GetClienteUseCase;
-import com.skimobarber.identity.domain.ports.out.ClienteRepository;
+import com.skimobarber.identity.domain.ports.out.IClienteRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.List;
 @Service
 public class GetClienteService implements GetClienteUseCase {
 
-    private final ClienteRepository clienteRepository;
+    private final IClienteRepository clienteRepository;
 
-    public GetClienteService(ClienteRepository clienteRepository) {
+    public GetClienteService(IClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 

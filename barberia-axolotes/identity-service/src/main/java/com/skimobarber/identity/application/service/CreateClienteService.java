@@ -4,19 +4,20 @@ import com.skimobarber.common.domain.Result;
 import com.skimobarber.identity.domain.model.Cliente;
 import com.skimobarber.identity.domain.model.Persona;
 import com.skimobarber.identity.domain.ports.in.CreateClienteUseCase;
-import com.skimobarber.identity.domain.ports.out.ClienteRepository;
-import com.skimobarber.identity.domain.ports.out.PersonaRepository;
+import com.skimobarber.identity.domain.ports.out.IClienteRepository;
+import com.skimobarber.identity.domain.ports.out.IPersonaRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CreateClienteService implements CreateClienteUseCase {
 
-    private final PersonaRepository personaRepository;
-    private final ClienteRepository clienteRepository;
+    private final IPersonaRepository personaRepository;
+    private final IClienteRepository clienteRepository;
 
-    public CreateClienteService(PersonaRepository personaRepository,
-                                 ClienteRepository clienteRepository) {
+    public CreateClienteService(IPersonaRepository personaRepository,
+                                 IClienteRepository clienteRepository) {
         this.personaRepository = personaRepository;
         this.clienteRepository = clienteRepository;
     }

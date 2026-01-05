@@ -4,19 +4,20 @@ import com.skimobarber.common.domain.Result;
 import com.skimobarber.identity.domain.model.Cliente;
 import com.skimobarber.identity.domain.model.Usuario;
 import com.skimobarber.identity.domain.ports.in.ManagePuntosFidelidadUseCase;
-import com.skimobarber.identity.domain.ports.out.ClienteRepository;
-import com.skimobarber.identity.domain.ports.out.UsuarioRepository;
+import com.skimobarber.identity.domain.ports.out.IClienteRepository;
+import com.skimobarber.identity.domain.ports.out.IUsuarioRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ManagePuntosFidelidadService implements ManagePuntosFidelidadUseCase {
 
-    private final ClienteRepository clienteRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final IClienteRepository clienteRepository;
+    private final IUsuarioRepository usuarioRepository;
 
-    public ManagePuntosFidelidadService(ClienteRepository clienteRepository,
-                                         UsuarioRepository usuarioRepository) {
+    public ManagePuntosFidelidadService(IClienteRepository clienteRepository,
+                                         IUsuarioRepository usuarioRepository) {
         this.clienteRepository = clienteRepository;
         this.usuarioRepository = usuarioRepository;
     }

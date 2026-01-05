@@ -1,13 +1,11 @@
 package com.skimobarber.identity.domain.ports.out;
 
 import com.skimobarber.identity.domain.model.Cliente;
+import com.skimobarber.common.domain.ports.out.IBaseRepository;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface ClienteRepository {
-    Cliente save(Cliente cliente);
+public interface IClienteRepository extends IBaseRepository<Cliente, Long> {
     Optional<Cliente> findByPersonaId(Long personaId);
-    List<Cliente> findAll();
     void deleteByPersonaId(Long personaId);
 }

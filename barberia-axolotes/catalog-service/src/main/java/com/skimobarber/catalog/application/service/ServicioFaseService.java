@@ -2,8 +2,8 @@ package com.skimobarber.catalog.application.service;
 
 import com.skimobarber.catalog.domain.model.ServicioFase;
 import com.skimobarber.catalog.domain.ports.in.ServicioFaseUseCase;
-import com.skimobarber.catalog.domain.ports.out.ServicioFaseRepository;
-import com.skimobarber.catalog.domain.ports.out.ServicioRepository;
+import com.skimobarber.catalog.domain.ports.out.IServicioFaseRepository;
+import com.skimobarber.catalog.domain.ports.out.IServicioRepository;
 import com.skimobarber.common.domain.Result;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public class ServicioFaseService implements ServicioFaseUseCase {
 
-    private final ServicioFaseRepository faseRepository;
-    private final ServicioRepository servicioRepository;
+    private final IServicioFaseRepository faseRepository;
+    private final IServicioRepository servicioRepository;
 
-    public ServicioFaseService(ServicioFaseRepository faseRepository,
-                                ServicioRepository servicioRepository) {
+    public ServicioFaseService(IServicioFaseRepository faseRepository,
+                                IServicioRepository servicioRepository) {
         this.faseRepository = faseRepository;
         this.servicioRepository = servicioRepository;
     }

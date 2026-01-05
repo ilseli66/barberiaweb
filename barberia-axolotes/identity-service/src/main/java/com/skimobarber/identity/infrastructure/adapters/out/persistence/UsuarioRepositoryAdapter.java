@@ -1,26 +1,25 @@
+
 package com.skimobarber.identity.infrastructure.adapters.out.persistence;
 
 import com.skimobarber.identity.domain.model.Usuario;
-import com.skimobarber.identity.domain.ports.out.UsuarioRepository;
+import com.skimobarber.identity.domain.ports.out.IUsuarioRepository;
 import com.skimobarber.identity.infrastructure.adapters.out.persistence.entity.PersonaEntity;
 import com.skimobarber.identity.infrastructure.adapters.out.persistence.entity.UsuarioEntity;
 import com.skimobarber.identity.infrastructure.adapters.out.persistence.jpa.JpaPersonaRepository;
 import com.skimobarber.identity.infrastructure.adapters.out.persistence.jpa.JpaUsuarioRepository;
-
+import com.skimobarber.identity.infrastructure.adapters.out.persistence.base.JpaBaseAdapter;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UsuarioRepositoryAdapter implements UsuarioRepository {
-
-    private final JpaUsuarioRepository jpaRepository;
+public class UsuarioRepositoryAdapter extends JpaBaseAdapter<Usuario, UsuarioEntity, Long, JpaUsuarioRepository> implements IUsuarioRepository {
     private final JpaPersonaRepository personaRepository;
 
-    public UsuarioRepositoryAdapter(JpaUsuarioRepository jpaRepository,
-                                     JpaPersonaRepository personaRepository) {
-        this.jpaRepository = jpaRepository;
+    public UsuarioRepositoryAdapter(JpaUsuarioRepository jpaRepository, JpaPersonaRepository personaRepository) {
+        super(jpaRepository, UsuarioEntity::toDomain, usuario -> {
+            throw new UnsupportedOperationException("Use saveWithPassword para crear usuarios nuevos con password");
+        });
         this.personaRepository = personaRepository;
     }
 
@@ -28,51 +27,41 @@ public class UsuarioRepositoryAdapter implements UsuarioRepository {
     public Usuario saveWithPassword(Usuario usuario, String encodedPassword) {
         PersonaEntity persona = personaRepository.findById(usuario.getPersonaId())
             .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada"));
-
         UsuarioEntity entity = UsuarioEntity.fromDomain(usuario, encodedPassword);
         entity.setPersona(persona);
-        UsuarioEntity saved = jpaRepository.save(entity);
-        return saved.toDomain();
+        UsuarioEntity saved = repository.save(entity);
+        return toDomain.apply(saved);
     }
 
     @Override
     public Usuario save(Usuario usuario) {
         // Para actualizaciones, mantenemos el password existente
-        UsuarioEntity existing = jpaRepository.findById(usuario.getPersonaId())
+        UsuarioEntity existing = repository.findById(usuario.getPersonaId())
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-        
         existing.setLogin(usuario.getLogin());
         existing.setRol(usuario.getRol().name().toLowerCase());
         existing.setActivo(usuario.isActivo());
-        
-        UsuarioEntity saved = jpaRepository.save(existing);
-        return saved.toDomain();
+        UsuarioEntity saved = repository.save(existing);
+        return toDomain.apply(saved);
     }
 
     @Override
     public Optional<Usuario> findByPersonaId(Long personaId) {
-        return jpaRepository.findById(personaId).map(UsuarioEntity::toDomain);
+        return repository.findById(personaId).map(toDomain);
     }
 
     @Override
     public Optional<Usuario> findByLogin(String login) {
-        return jpaRepository.findByLogin(login).map(UsuarioEntity::toDomain);
-    }
-
-    @Override
-    public List<Usuario> findAll() {
-        return jpaRepository.findAll().stream()
-            .map(UsuarioEntity::toDomain)
-            .toList();
+        return repository.findByLogin(login).map(toDomain);
     }
 
     @Override
     public boolean existsByLogin(String login) {
-        return jpaRepository.existsByLogin(login);
+        return repository.existsByLogin(login);
     }
 
     @Override
     public void deleteByPersonaId(Long personaId) {
-        jpaRepository.deleteById(personaId);
+        repository.deleteById(personaId);
     }
 }
