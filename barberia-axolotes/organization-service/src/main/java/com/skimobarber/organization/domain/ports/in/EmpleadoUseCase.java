@@ -6,7 +6,7 @@ import com.skimobarber.organization.domain.model.Empleado;
 import java.util.List;
 
 public interface EmpleadoUseCase {
-    Result<Empleado> create(CreateEmpleadoCommand command);
+    Result<Long> create(CreateEmpleadoCommand command);
     Result<Empleado> findById(Long personaId);
     Result<List<Empleado>> findBySucursalId(Long sucursalId);
     Result<List<Empleado>> findAll();

@@ -25,7 +25,7 @@ public class EmpleadoService implements EmpleadoUseCase {
 
     @Override
     @Transactional
-    public Result<Empleado> create(CreateEmpleadoCommand command) {
+    public Result<Long> create(CreateEmpleadoCommand command) {
         if (!sucursalRepository.existsById(command.sucursalId())) {
             return Result.notFound("Sucursal no encontrada con id: " + command.sucursalId());
         }
@@ -41,7 +41,7 @@ public class EmpleadoService implements EmpleadoUseCase {
         );
 
         Empleado saved = empleadoRepository.save(empleado);
-        return Result.created(saved);
+        return Result.created(saved.getPersonaId());
     }
 
     @Override

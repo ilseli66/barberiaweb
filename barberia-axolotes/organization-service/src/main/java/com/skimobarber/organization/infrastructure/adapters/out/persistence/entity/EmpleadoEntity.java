@@ -22,9 +22,9 @@ public class EmpleadoEntity {
     private String especialidad;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sucursal_id")
+    @JoinColumn(name = "sucursal_id", insertable = false, updatable = false)
     private SucursalEntity sucursal;
 
-    @Column(name = " sucursal_id", insertable = false, updatable = false)
+    @Column(name = "sucursal_id")
     private Long sucursalId;
 }

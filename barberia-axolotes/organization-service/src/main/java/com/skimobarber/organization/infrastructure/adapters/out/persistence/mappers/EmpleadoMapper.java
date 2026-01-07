@@ -18,6 +18,7 @@ public class EmpleadoMapper {
         EmpleadoEntity entity = new EmpleadoEntity();
         entity.setPersonaId(domain.getPersonaId());
         entity.setEspecialidad(domain.getEspecialidad());
+        entity.setSucursalId(domain.getSucursalId());
         return entity;
     }
 }

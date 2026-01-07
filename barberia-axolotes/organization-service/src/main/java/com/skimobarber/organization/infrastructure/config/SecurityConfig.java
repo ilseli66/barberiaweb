@@ -37,6 +37,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Endpoints de actuator públicos
                 .requestMatchers("/actuator/**").permitAll()
+                // Endpoints de Swagger/OpenAPI públicos
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs").permitAll()
                 // Todos los endpoints de negocio requieren autenticación
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
@@ -48,7 +50,6 @@ public class SecurityConfig {
                     .jwtAuthenticationConverter(jwtAuthenticationConverter())
                 )
             );
-
         return http.build();
     }
 

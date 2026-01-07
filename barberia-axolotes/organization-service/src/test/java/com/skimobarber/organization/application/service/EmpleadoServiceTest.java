@@ -38,7 +38,7 @@ class EmpleadoServiceTest {
         CreateEmpleadoCommand command = new CreateEmpleadoCommand(1L, 99L, "cortes");
         when(sucursalRepository.existsById(99L)).thenReturn(false);
 
-        Result<Empleado> result = service.create(command);
+        Result<Long> result = service.create(command);
 
         assertFalse(result.isSuccess());
         assertEquals(FailureCategory.NOT_FOUND, result.failureCategory());
@@ -50,7 +50,7 @@ class EmpleadoServiceTest {
         when(sucursalRepository.existsById(2L)).thenReturn(true);
         when(empleadoRepository.existsByPersonaId(1L)).thenReturn(true);
 
-        Result<Empleado> result = service.create(command);
+        Result<Long> result = service.create(command);
 
         assertFalse(result.isSuccess());
         assertEquals(FailureCategory.CONFLICT, result.failureCategory());
@@ -64,11 +64,11 @@ class EmpleadoServiceTest {
         Empleado saved = new Empleado(1L, 2L, "cortes");
         when(empleadoRepository.save(any(Empleado.class))).thenReturn(saved);
 
-        Result<Empleado> result = service.create(command);
+        Result<Long> result = service.create(command);
 
         assertTrue(result.isSuccess());
         assertEquals(SuccessCategory.CREATED, result.successCategory());
-        assertEquals(saved, result.value());
+        assertEquals(saved.getPersonaId(), result.value());
     }
 
     @Test
