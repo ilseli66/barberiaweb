@@ -1,18 +1,18 @@
 server:
-  port: 8083
+  port: ${SERVER_PORT:8083}
 
 spring:
   application:
     name: catalog-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/barberia_db
-    username: myuser
-    password: secret
+    url: ${DB_CATALOG_URL:jdbc:postgresql://localhost:5432/db_catalog}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
-    show-sql: true
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: ${JPA_SHOW_SQL:true}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -21,9 +21,13 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
+
+# Configuración JWT (debe coincidir con identity-service)
+jwt:
+  secret: ${JWT_SECRET:SkimoBarberSecretKeyForJWTTokenSigningMustBe256BitsLong!}
 
 management:
   endpoints:

@@ -2,8 +2,13 @@ package com.skimobarber.identity.infrastructure.adapters.out.persistence.entity;
 
 import com.skimobarber.identity.domain.model.Persona;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "persona")
 public class PersonaEntity {
@@ -34,33 +39,6 @@ public class PersonaEntity {
     private String email;
 
     public PersonaEntity() {}
-
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getGeneroId() { return generoId; }
-    public void setGeneroId(Long generoId) { this.generoId = generoId; }
-
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public String getPrimerApellido() { return primerApellido; }
-    public void setPrimerApellido(String primerApellido) { this.primerApellido = primerApellido; }
-
-    public String getSegundoApellido() { return segundoApellido; }
-    public void setSegundoApellido(String segundoApellido) { this.segundoApellido = segundoApellido; }
-
-    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
-    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
-
-    public String getTelefono() { return telefono; }
-    public void setTelefono(String telefono) { this.telefono = telefono; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    // ========== Mapping Methods ==========
 
     public static PersonaEntity fromDomain(Persona persona) {
         PersonaEntity entity = new PersonaEntity();

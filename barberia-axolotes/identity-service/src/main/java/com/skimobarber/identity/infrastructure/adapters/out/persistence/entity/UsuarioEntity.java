@@ -56,9 +56,9 @@ public class UsuarioEntity {
      * Crea una entidad desde el dominio.
      * Nota: El password debe establecerse por separado ya que el dominio no lo maneja.
      */
-    public static UsuarioEntity fromDomain(Usuario usuario, String encodedPassword) {
+    public static UsuarioEntity fromDomain(Usuario usuario, String encodedPassword, PersonaEntity persona) {
         UsuarioEntity entity = new UsuarioEntity();
-        entity.setPersonaId(usuario.getPersonaId());
+        entity.setPersona(persona); // @MapsId requiere que persona esté asignada
         entity.setLogin(usuario.getLogin());
         entity.setPassword(encodedPassword);
         entity.setRol(usuario.getRol().name().toLowerCase());

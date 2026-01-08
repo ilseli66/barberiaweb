@@ -38,7 +38,7 @@ public class SecurityConfig {
                 // Endpoints de actuator públicos
                 .requestMatchers("/actuator/**").permitAll()
                 // Endpoints de Swagger/OpenAPI públicos
-                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs").permitAll()
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/v2/api-docs", "/swagger-resources/**", "/webjars/**").permitAll()
                 // Todos los endpoints de negocio requieren autenticación
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
@@ -59,7 +59,9 @@ public class SecurityConfig {
     @Bean
     public JwtDecoder jwtDecoder() {
         SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-        return NimbusJwtDecoder.withSecretKey(secretKey).build();
+        return NimbusJwtDecoder.withSecretKey(secretKey)
+                .macAlgorithm(org.springframework.security.oauth2.jose.jws.MacAlgorithm.HS384)
+                .build();
     }
 
     /**

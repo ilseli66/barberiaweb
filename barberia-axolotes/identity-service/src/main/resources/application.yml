@@ -1,18 +1,18 @@
 server:
-  port: 8081
+  port: ${SERVER_PORT:8081}
 
 spring:
   application:
     name: identity-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/barberia_db
-    username: myuser
-    password: secret
+    url: ${DB_IDENTITY_URL:jdbc:postgresql://localhost:5432/db_identity}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
-    show-sql: true
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: ${JPA_SHOW_SQL:true}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -21,15 +21,15 @@ spring:
 # Configuración JWT
 jwt:
   # Clave secreta para firmar tokens (mínimo 256 bits / 32 caracteres)
-  # En producción usar variable de entorno: ${JWT_SECRET}
-  secret: SkimoBarberSecretKeyForJWTTokenSigningMustBe256BitsLong!
+  # En producción usar variable de entorno: JWT_SECRET
+  secret: ${JWT_SECRET:SkimoBarberSecretKeyForJWTTokenSigningMustBe256BitsLong!}
   # Tiempo de expiración del token en milisegundos (1 hora = 3600000)
-  expiration-ms: 3600000
+  expiration-ms: ${JWT_EXPIRATION_MS:3600000}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
 

@@ -27,8 +27,7 @@ public class UsuarioRepositoryAdapter extends JpaBaseAdapter<Usuario, UsuarioEnt
     public Usuario saveWithPassword(Usuario usuario, String encodedPassword) {
         PersonaEntity persona = personaRepository.findById(usuario.getPersonaId())
             .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada"));
-        UsuarioEntity entity = UsuarioEntity.fromDomain(usuario, encodedPassword);
-        entity.setPersona(persona);
+        UsuarioEntity entity = UsuarioEntity.fromDomain(usuario, encodedPassword, persona);
         UsuarioEntity saved = repository.save(entity);
         return toDomain.apply(saved);
     }

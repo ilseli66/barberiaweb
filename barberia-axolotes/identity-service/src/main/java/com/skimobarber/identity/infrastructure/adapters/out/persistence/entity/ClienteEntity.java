@@ -39,9 +39,9 @@ public class ClienteEntity {
 
     // ========== Mapping Methods ==========
 
-    public static ClienteEntity fromDomain(Cliente cliente) {
+    public static ClienteEntity fromDomain(Cliente cliente, PersonaEntity persona) {
         ClienteEntity entity = new ClienteEntity();
-        entity.setPersonaId(cliente.getPersonaId());
+        entity.setPersona(persona); // @MapsId requiere que persona esté asignada
         entity.setPuntosFidelidad(cliente.getPuntosFidelidad());
         entity.setNotasAlergias(cliente.getNotasAlergias());
         return entity;

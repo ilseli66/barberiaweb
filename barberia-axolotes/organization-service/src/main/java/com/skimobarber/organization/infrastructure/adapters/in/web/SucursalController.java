@@ -15,7 +15,6 @@ import com.skimobarber.common.infrastructure.web.ApiResponse;
 import com.skimobarber.common.infrastructure.web.BaseController;
 import com.skimobarber.organization.domain.model.Sucursal;
 import com.skimobarber.organization.domain.ports.in.SucursalUseCase;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

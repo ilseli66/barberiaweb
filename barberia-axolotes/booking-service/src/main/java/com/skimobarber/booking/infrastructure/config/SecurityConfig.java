@@ -1,6 +1,7 @@
-package com.skimobarber.identity.infrastructure.config;
+package com.skimobarber.booking.infrastructure.config;
 
-import com.skimobarber.identity.infrastructure.adapters.out.security.JwtProvider;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -13,16 +14,20 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * Configuración de seguridad del microservicio Booking.
+ * Actúa como Resource Server que valida tokens JWT.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtProvider jwtProvider;
-
-    public SecurityConfig(JwtProvider jwtProvider) {
-        this.jwtProvider = jwtProvider;
-    }
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,39 +35,31 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Swagger UI - acceso público
-                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
-                // Endpoints públicos (login, registro)
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/clientes").permitAll() // Registro de clientes
+                // Endpoints de actuator públicos
                 .requestMatchers("/actuator/**").permitAll()
-                // Géneros - lectura pública, escritura autenticada
-                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/generos/**").permitAll()
-                // Endpoints protegidos
-                .requestMatchers("/api/usuarios/**").authenticated()
-                .requestMatchers("/api/clientes/**").authenticated()
-                .requestMatchers("/api/personas/**").authenticated()
-                .requestMatchers("/api/generos/**").authenticated()
+                // Endpoints de Swagger/OpenAPI públicos
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
+                // Todos los endpoints de negocio requieren autenticación
+                .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
             )
-            // Configurar como Resource Server con JWT
+            // Configurar como Resource Server para validar JWT
             .oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt
                     .decoder(jwtDecoder())
                     .jwtAuthenticationConverter(jwtAuthenticationConverter())
                 )
             );
-
         return http.build();
     }
 
     /**
-     * Decodificador de JWT usando la clave secreta compartida.
-     * Usa HS384 para coincidir con el algoritmo usado por jjwt al firmar.
+     * Decodificador de JWT usando la misma clave secreta compartida.
      */
     @Bean
     public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withSecretKey(jwtProvider.getSecretKey())
+        SecretKey secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        return NimbusJwtDecoder.withSecretKey(secretKey)
                 .macAlgorithm(org.springframework.security.oauth2.jose.jws.MacAlgorithm.HS384)
                 .build();
     }

@@ -3,15 +3,17 @@ services:
     image: 'postgres:16'
     container_name: barberia-postgres
     environment:
-      POSTGRES_DB: barberia_db
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+      POSTGRES_DB: postgres
     ports:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Para producción, descomentar la siguiente línea para crear BDs automáticamente:
+      # - ./scripts/init-databases.sql.prod:/docker-entrypoint-initdb.d/01-init-databases.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d barberia_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres}"]
       interval: 10s
       timeout: 5s
       retries: 5

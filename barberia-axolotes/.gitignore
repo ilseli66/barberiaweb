@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Archivos de configuración con credenciales ###
+.env
+*.env.local
+application-local.yml
+application-local.properties
+
+### Logs ###
+*.log
+logs/

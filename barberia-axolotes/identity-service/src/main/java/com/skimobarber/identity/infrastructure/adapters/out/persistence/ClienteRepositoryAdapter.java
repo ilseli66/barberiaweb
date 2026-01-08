@@ -17,7 +17,9 @@ public class ClienteRepositoryAdapter extends JpaBaseAdapter<Cliente, ClienteEnt
     private final JpaPersonaRepository personaRepository;
 
     public ClienteRepositoryAdapter(JpaClienteRepository jpaRepository, JpaPersonaRepository personaRepository) {
-        super(jpaRepository, ClienteEntity::toDomain, ClienteEntity::fromDomain);
+        super(jpaRepository, ClienteEntity::toDomain, cliente -> {
+            throw new UnsupportedOperationException("Use el método save() que recibe PersonaEntity");
+        });
         this.personaRepository = personaRepository;
     }
 
@@ -25,8 +27,7 @@ public class ClienteRepositoryAdapter extends JpaBaseAdapter<Cliente, ClienteEnt
     public Cliente save(Cliente cliente) {
         PersonaEntity persona = personaRepository.findById(cliente.getPersonaId())
             .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada"));
-        ClienteEntity entity = ClienteEntity.fromDomain(cliente);
-        entity.setPersona(persona);
+        ClienteEntity entity = ClienteEntity.fromDomain(cliente, persona);
         ClienteEntity saved = repository.save(entity);
         return toDomain.apply(saved);
     }

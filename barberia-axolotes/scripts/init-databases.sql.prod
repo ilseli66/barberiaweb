@@ -1,0 +1,23 @@
+-- ============================================================
+-- Script de inicialización de bases de datos
+-- Crea las 4 bases de datos para los microservicios
+-- ============================================================
+
+-- Base de datos para identity-service (usuarios, autenticación)
+CREATE DATABASE db_identity;
+
+-- Base de datos para organization-service (barberías, sucursales)
+CREATE DATABASE db_organization;
+
+-- Base de datos para catalog-service (servicios, productos)
+CREATE DATABASE db_catalog;
+
+-- Base de datos para booking-service (citas, horarios)
+CREATE DATABASE db_booking;
+
+-- Mensaje de confirmación
+\echo 'Bases de datos creadas exitosamente:'
+\echo '  - db_identity'
+\echo '  - db_organization'
+\echo '  - db_catalog'
+\echo '  - db_booking'
