@@ -42,11 +42,9 @@ public class AuthenticateUserService implements AuthenticateUserUseCase {
 
     private Result<AuthResponse> createAuthResponse(Usuario usuario) {
         String accessToken = tokenProvider.generateAccessToken(usuario);
-        String refreshToken = tokenProvider.generateRefreshToken(usuario);
 
         AuthResponse response = new AuthResponse(
             accessToken,
-            refreshToken,
             "Bearer",
             tokenProvider.getExpirationSeconds(),
             usuario.getPersonaId(),

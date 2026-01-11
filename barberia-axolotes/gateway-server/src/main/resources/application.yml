@@ -5,6 +5,15 @@ server:
 spring:
   application:
     name: gateway-server
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          x-forwarded-request-headers-filter:
+            host-enabled: true
+            proto-enabled: true
+            prefix-enabled: true
+
 
 jwt:
   secret: ${JWT_SECRET:SkimoBarberSecretKeyForJWTTokenSigningMustBe256BitsLong!}
@@ -32,6 +41,8 @@ logging:
     com.skimobarber.gateway: DEBUG
 
 springdoc:
+  api-docs:
+    resolve-schema-properties: true 
   swagger-ui:
     urls:
       - name: Identity Service

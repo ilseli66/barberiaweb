@@ -67,7 +67,6 @@ class AuthenticateUserServiceTest {
         when(credentialsVerifier.verifyCredentials("user", "good"))
             .thenReturn(Optional.of(usuario));
         when(tokenProvider.generateAccessToken(usuario)).thenReturn("access-token");
-        when(tokenProvider.generateRefreshToken(usuario)).thenReturn("refresh-token");
         when(tokenProvider.getExpirationSeconds()).thenReturn(3600L);
 
         Result<?> result = service.execute(new AuthCommand("user", "good"));
@@ -76,7 +75,7 @@ class AuthenticateUserServiceTest {
         assertNotNull(result.value());
         AuthResponse response = (AuthResponse) result.value();
         assertEquals("access-token", response.accessToken());
-        assertEquals("refresh-token", response.refreshToken());
+        assertEquals("Bearer", response.tokenType());
         assertEquals("user", response.login());
         assertEquals(TipoRol.CLIENTE.name(), response.role());
     }

@@ -32,9 +32,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Swagger UI - acceso público
                 .requestMatchers(
-                    "**/v3/api-docs/**", 
                     "/v3/api-docs/**", 
-                    "/api/identity/v3/api-docs",
+                    "/api/*/v3/api-docs",
+                    "/swagger-ui.html", 
                     "/swagger-ui/**"
                 ).permitAll()
                 // Endpoints públicos (login, registro)

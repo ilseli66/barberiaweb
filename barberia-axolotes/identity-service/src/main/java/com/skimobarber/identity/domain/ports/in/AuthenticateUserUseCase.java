@@ -20,7 +20,6 @@ public interface AuthenticateUserUseCase {
      */
     record AuthResponse(
         String accessToken,
-        String refreshToken,
         String tokenType,
         long expiresIn,
         Long userId,

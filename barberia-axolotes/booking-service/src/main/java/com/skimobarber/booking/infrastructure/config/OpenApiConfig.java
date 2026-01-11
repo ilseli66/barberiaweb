@@ -6,6 +6,10 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+
+import java.util.List;
+
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,7 +37,12 @@ public class OpenApiConfig {
                     .name(SECURITY_SCHEME_NAME)
                     .type(SecurityScheme.Type.HTTP)
                     .scheme("bearer")
-                    .bearerFormat("JWT")
-                    .description("Ingresa el token JWT obtenido del endpoint /api/auth/login")));
+                        .bearerFormat("JWT")
+                        .description("Ingresa el token JWT obtenido del endpoint /api/auth/login")));
+    }
+
+     @Bean
+    public OpenApiCustomizer removeServersCustomizer() {
+        return openApi -> openApi.setServers(List.of());
     }
 }

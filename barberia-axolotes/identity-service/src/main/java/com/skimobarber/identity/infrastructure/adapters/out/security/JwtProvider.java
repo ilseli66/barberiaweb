@@ -3,6 +3,7 @@ package com.skimobarber.identity.infrastructure.adapters.out.security;
 import com.skimobarber.identity.domain.model.Usuario;
 import com.skimobarber.identity.domain.ports.out.TokenProvider;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,18 +38,8 @@ public class JwtProvider implements TokenProvider {
 
     @Override
     public String generateRefreshToken(Usuario usuario) {
-        Date now = new Date();
-        // Refresh token válido por 7 días
-        Date expiration = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000L));
-
-        return Jwts.builder()
-                .subject(usuario.getLogin())
-                .claim("userId", usuario.getPersonaId())
-                .claim("type", "refresh")
-                .issuedAt(now)
-                .expiration(expiration)
-                .signWith(secretKey)
-                .compact();
+        // No se usa refresh token - solo access token
+        return null;
     }
 
     @Override
@@ -72,7 +63,7 @@ public class JwtProvider implements TokenProvider {
                 .claim("roles", List.of(usuario.getRol().name()))
                 .issuedAt(now)
                 .expiration(expiration)
-                .signWith(secretKey)
+                .signWith(secretKey, SignatureAlgorithm.HS384) // Explicit HS384 to match decoders
                 .compact();
     }
 
