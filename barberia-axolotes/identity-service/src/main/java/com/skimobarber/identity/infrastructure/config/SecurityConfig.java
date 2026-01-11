@@ -31,7 +31,12 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 // Swagger UI - acceso público
-                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
+                .requestMatchers(
+                    "**/v3/api-docs/**", 
+                    "/v3/api-docs/**", 
+                    "/api/identity/v3/api-docs",
+                    "/swagger-ui/**"
+                ).permitAll()
                 // Endpoints públicos (login, registro)
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/clientes").permitAll() // Registro de clientes

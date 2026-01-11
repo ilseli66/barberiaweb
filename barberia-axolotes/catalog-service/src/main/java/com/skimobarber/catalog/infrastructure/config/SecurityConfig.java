@@ -39,7 +39,12 @@ public class SecurityConfig {
                 // Endpoints de actuator públicos
                 .requestMatchers("/actuator/**").permitAll()
                 // Endpoints de Swagger/OpenAPI públicos
-                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**").permitAll()
+                .requestMatchers(
+                    "/v3/api-docs/**", 
+                    "/api/*/v3/api-docs", // Ruta que viene del Gateway
+                    "/swagger-ui.html", 
+                    "/swagger-ui/**"
+                ).permitAll()
                 // Catálogo: lectura pública (servicios, productos), escritura autenticada
                 .requestMatchers(HttpMethod.GET, "/api/servicios/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/productos/**").permitAll()

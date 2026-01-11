@@ -38,7 +38,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/clientes").permitAll() // Registro público
                 .requestMatchers("/actuator/**").permitAll()
-                // Todos los demás endpoints requieren autenticación
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/*/v3/api-docs").permitAll()
+                .requestMatchers("/api/*/v3/api-docs").permitAll()
                 .anyRequest().authenticated()
             )
             // Configurar como Resource Server para validar JWT
