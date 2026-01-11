@@ -6,7 +6,6 @@ spring:
   application:
     name: gateway-server
 
-# Configuración JWT (debe coincidir con identity-service)
 jwt:
   secret: ${JWT_SECRET:SkimoBarberSecretKeyForJWTTokenSigningMustBe256BitsLong!}
 
@@ -34,13 +33,12 @@ logging:
 
 springdoc:
   swagger-ui:
-    # Esto crea un menú desplegable en la parte superior derecha de Swagger
     urls:
-      - name: 01. Identity (Usuarios/Auth)
+      - name: Identity Service
         url: /api/identity/v3/api-docs
-      - name: 02. Organization (Sucursales/Empleados)
+      - name: Organization Service
         url: /api/organization/v3/api-docs
-      - name: 03. Catalog (Servicios)
+      - name: Catalog Service
         url: /api/catalog/v3/api-docs
-      - name: 04. Booking (Citas)
+      - name: Booking Service
         url: /api/booking/v3/api-docs

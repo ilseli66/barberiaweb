@@ -1,5 +1,6 @@
 server:
   port: 8761
+  forward-headers-strategy: framework
 
 spring:
   application:
@@ -7,7 +8,7 @@ spring:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: eureka-server
   client:
     register-with-eureka: false
     fetch-registry: false

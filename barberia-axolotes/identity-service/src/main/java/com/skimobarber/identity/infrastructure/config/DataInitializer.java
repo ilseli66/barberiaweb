@@ -18,24 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-/**
- * Inicializador de datos de prueba para el entorno de desarrollo.
- * 
- * Este componente se ejecuta automáticamente al iniciar el microservicio
- * y crea usuarios de prueba si no existen.
- * 
- * Solo se activa con el perfil "dev" o cuando no hay perfil activo (default).
- * Para producción, usar el perfil "prod" y este inicializador no se ejecutará.
- * 
- * CREDENCIALES DE PRUEBA:
- * +--------------+------------------+---------------+
- * | Usuario      | Contraseña       | Rol           |
- * +--------------+------------------+---------------+
- * | admin        | admin123         | ADMINISTRADOR |
- * | barbero1     | barbero123       | EMPLEADO      |
- * | cliente1     | cliente123       | CLIENTE       |
- * +--------------+------------------+---------------+
- */
 @Component
 @Profile({"dev", "default"})
 public class DataInitializer implements CommandLineRunner {
